@@ -1,0 +1,113 @@
+{% load humanize %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Export PDF</title>
+</head>
+<body style="font-family: Tahoma">
+    <div style="display: flex;">
+        <div style="align-items: center; border-bottom:1px solid black;">
+            <img src="https://i.ibb.co.com/1QjSjxy/IAALogo.png" alt="IAALogo" style="width: 80px; height:80px; margin-bottom:20px"/>
+        </div>
+    </div>
+
+    <div style="margin-top: 20px;">
+        <h1 style="color: #252525;font-size: 15px;margin-bottom: 0px; margin-top: 10px;" >Hasil rekonsiliasi : Ditemukan 4 tagihan yang tidak sama </h1>
+        <div class="periode">
+            <p class="text-sm mt-4" style="font-size: 12px;">Rekonsiliasi data tagihan fuel IAA dengan yang ditagihkan {{ latest_result.fuel_agent }} pada periode<span class="text-red-600">{{ latest_result.data_start_date|date:" N j, Y"  }}</span>  sampai <span class="text-red-600">{{ latest_result.data_end_date|date:" N j, Y" }}</span>  </p>
+        </div>
+    </div>
+    <div style="color: #252525;margin-top: 30px;margin-bottom: 20px;text-align: right;float: right;font-size: medium;box-shadow: 0 0 0 1px black;">
+        <div>
+            <table style="width: 100%;margin-top: 50px; margin-bottom: 40px; ">
+                <thead>
+                    <tr>
+                        <th style="border: 1px solid #dddddd;text-align: left;padding: 4px; background-color: #df1a1a;">Invoice</th>
+                        <th style="border: 1px solid #dddddd;text-align: left;padding: 4px;background-color: #df1a1a;">Date</th>
+                        <th style="border: 1px solid #dddddd;text-align: left;padding: 4px;background-color: #df1a1a;">Flight</th>
+                        <th style="border: 1px solid #dddddd;text-align: left;padding: 4px;background-color: #df1a1a;">Dep</th>
+                        <th style="border: 1px solid #dddddd;text-align: left;padding: 4px;background-color: #df1a1a;">Arr</th>
+                        <th style="border: 1px solid #dddddd;text-align: left;padding: 4px;background-color: #df1a1a;">Reg</th>
+                        <th style="border: 1px solid #dddddd;text-align: left;padding: 4px;background-color: #df1a1a;">Vendor Name</th>
+                        <th style="border: 1px solid #dddddd;text-align: left;padding: 4px;background-color: #df1a1a;">Uplift by OCC</th>
+                        <th style="border: 1px solid #dddddd;text-align: left;padding: 4px;background-color: #df1a1a;">Uplift by Vendor</th>
+                        <th style="border: 1px solid #dddddd;text-align: left;padding: 4px;background-color: #df1a1a;">Selisih</th>        
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for detail_result in latest_detail_results %}
+                    <tr>
+                        <td style="border: 1px solid #dddddd;text-align: left;padding: 4px;">{{ detail_result.invoice_no }}</td>
+                        <td style="border: 1px solid #dddddd;text-align: right;padding: 4px;">{{ detail_result.date_occ|date:"Y-m-d" }}</td>
+                        <td style="border: 1px solid #dddddd;text-align: left;padding: 4px;">{{ detail_result.flight_occ }}</td>
+                        <td style="border: 1px solid #dddddd;text-align: left;padding: 4px;">{{ detail_result.departure_occ }}</td>
+                        <td style="border: 1px solid #dddddd;text-align: left;padding: 4px;">{{ detail_result.arrival_occ }}</td>
+                        <td style="border: 1px solid #dddddd;text-align: left;padding: 4px;">{{ detail_result.registration_occ }}</td>
+                        <td style="border: 1px solid #dddddd;text-align: left;padding: 4px;">{{ detail_result.fuel_agent }}</td>
+                        <td style="border: 1px solid #dddddd;text-align: left;padding: 4px;">{{ detail_result.uplift_in_lts_occ|floatformat:"-0"|intcomma }}</td>
+                        <td style="border: 1px solid #dddddd;text-align: left;padding: 4px;">{{ detail_result.uplift_in_lts_ven|floatformat:"-0"|intcomma }}</td>
+                        <td style="border: 1px solid #dddddd;text-align: left;padding: 4px;">{{ detail_result.selisih|floatformat:"-0"|intcomma }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+
+    <div style="float: inline-end; text-align: end; display: flex; justify-content: flex-end;">
+        <div class="total">
+            <p style="color: #252525; font-size: 12px; text-align: left; font-weight:bold;">Total uplift in lts by IAA                              : {{ latest_result.total_uplift_in_lts_occ|floatformat:"-0"|intcomma }} </p>
+        </div>
+        <div class="total">
+            <p style="color: #252525; font-size: 12px; text-align: left; font-weight:bold;">Total uplift in lts by {{ latest_result.fuel_agent }}   : {{ latest_result.total_uplift_in_lts_ven|floatformat:"-0"|intcomma }}</p>
+        </div>
+        <div class="total">
+            <p style="color: #252525; font-size: 12px; text-align: left; font-weight:bold;">Total Selisih                                           : {{ latest_result.total_selisih|floatformat:"-0"|intcomma }}</p>
+        </div>
+    </div>
+
+
+
+    {% if latest_missing_invoices_in_vendor %}
+    <p class="invoice" style="color:black;font-size:12px;"><span style="color: rgb(233, 48, 48);">***</span>Data dari {{ latest_result.fuel_agent }} Tidak Ditemukan dalam Rekaman IAA.</p>
+    <table>
+        <thead>
+            <tr>
+                <th style="border: 1px solid #dddddd;text-align: left;padding: 4px;background-color: #df1a1a;">Invoice</th>
+                <th style="border: 1px solid #dddddd;text-align: left;padding: 4px;background-color: #df1a1a;">Date</th>
+                <th style="border: 1px solid #dddddd;text-align: left;padding: 4px;background-color: #df1a1a;">Flight</th>
+                <th style="border: 1px solid #dddddd;text-align: left;padding: 4px;background-color: #df1a1a;">Dep</th>
+                <th style="border: 1px solid #dddddd;text-align: left;padding: 4px;background-color: #df1a1a;">Arr</th>
+                <th style="border: 1px solid #dddddd;text-align: left;padding: 4px;background-color: #df1a1a;">Reg</th>
+                <th style="border: 1px solid #dddddd;text-align: left;padding: 4px;background-color: #df1a1a;">Vendor Name</th>
+                <th style="border: 1px solid #dddddd;text-align: left;padding: 4px;background-color: #df1a1a;">Uplift in Lts</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for missing  in latest_missing_invoices_in_vendor %}
+            <tr>
+                <td style="border: 1px solid #dddddd;text-align: left;padding: 4px;">{{ missing.invoice_no }}</td>
+                <td style="border: 1px solid #dddddd;text-align: left;padding: 4px;">{{ missing.date|date:"Y-m-d" }}</td>
+                <td style="border: 1px solid #dddddd;text-align: left;padding: 4px;">{{ missing.flight }}</td>
+                <td style="border: 1px solid #dddddd;text-align: left;padding: 4px;">{{ missing.departure }}</td>
+                <td style="border: 1px solid #dddddd;text-align: left;padding: 4px;">{{ missing.arrival }}</td>
+                <td style="border: 1px solid #dddddd;text-align: left;padding: 4px;">{{ missing.registration }}</td>
+                <td style="border: 1px solid #dddddd;text-align: left;padding: 4px;">{{ missing.fuel_agent }}</td>
+                <td style="border: 1px solid #dddddd;text-align: center;padding: 4px;">{{ missing.uplift_in_lts|floatformat:"-0"|intcomma }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <div style="color: #252525;margin-top: 30px;margin-bottom: 20px;text-align: right;float: right;font-size: 12px;">
+        <dt class="" style="font-size: 12px;">Total Uplift in Lts : {{ total_missing_invoices_in_vendor|intcomma }}</dt>
+    </div>
+    {% endif %}
+
+
+</body>
+</html>
+
+

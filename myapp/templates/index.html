@@ -1,0 +1,187 @@
+
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<main class>
+    <!-- error add_data -->
+    {% include 'error/add_data.html' %}
+    <!-- end add_data -->
+    <div class="px-4 py-10 sm:px-6 lg:px-8 lg:py-4 ">
+        <div class="container mx-auto ">
+            <div
+                class="border-2 border-dashed border-gray-300 p-6 text-center hover:border-gray-400 mt-10 rounded-md">
+                <form id="uploadForm" action="/" method="POST"
+                    enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="grid gap-6 mb-6 lg:grid-cols-2">
+                        <div>
+                            <div class="w-full overflow-hidden rounded-lg">
+                                <div type="button"
+                                    class="relative block w-full rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                                    <div class="mb-6">
+                                        <label for="file-iaa"
+                                            class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100">
+                                            <div
+                                                class="flex flex-col items-center justify-center pt-5 pb-6">
+                                                <svg
+                                                    class="w-10 h-10 mb-3 text-gray-400"
+                                                    fill="none"
+                                                    stroke="currentColor"
+                                                    viewBox="0 0 24 24"
+                                                    xmlns="http://www.w3.org/2000/svg">
+                                                    <path stroke-linecap="round"
+                                                        stroke-linejoin="round"
+                                                        stroke-width="2"
+                                                        d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+                                                </svg>
+                                                <p
+                                                    class="mb-2 text-sm text-gray-500"><span
+                                                        class="font-semibold">Masukkan
+                                                        file tagihan dari
+                                                        IAA</span></p>
+                                                <p
+                                                    class="text-sm text-gray-500">Click
+                                                    to upload or drag and
+                                                    drop</p>
+                                                <p class=" text-sm"><span
+                                                        class="text-red-500">**</span>xlsx
+                                                    or csv file only</p>
+                                                <div
+                                                    id="file-name-placeholder-iaa"></div>
+                                                <span id="file-error-iaa"
+                                                    class="text-red-500 mt-2 hidden">Please
+                                                    upload a file</span>
+                                            </div>
+                                            <input id="file-iaa" type="file"
+                                                class="hidden" name="file_iaa"
+                                                accept=".xlsx,.csv" required>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="w-full overflow-hidden rounded-lg">
+                                <div type="button"
+                                    class="relative block w-full rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                                    <div class="mb-6">
+                                        <label for="file-vendor"
+                                            class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100">
+                                            <div
+                                                class="flex flex-col items-center justify-center pt-5 pb-6">
+                                                <svg
+                                                    class="w-10 h-10 mb-3 text-gray-400"
+                                                    fill="none"
+                                                    stroke="currentColor"
+                                                    viewBox="0 0 24 24"
+                                                    xmlns="http://www.w3.org/2000/svg">
+                                                    <path stroke-linecap="round"
+                                                        stroke-linejoin="round"
+                                                        stroke-width="2"
+                                                        d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+                                                </svg>
+                                                <p
+                                                    class="mb-2 text-sm text-gray-500"><span
+                                                        class="font-semibold">Masukkan
+                                                        file tagihan dari
+                                                        Vendor</span></p>
+                                                <p
+                                                    class="text-sm text-gray-500">Click
+                                                    to upload or drag and
+                                                    drop</p>
+                                                <p class=" text-sm"><span
+                                                        class="text-red-500">**</span>xlsx
+                                                    or csv file only</p>
+                                                <div
+                                                    id="file-name-placeholder-vendor"></div>
+                                                <span id="file-error-vendor"
+                                                    class="text-red-500 mt-2 hidden">Please
+                                                    upload a file</span>
+                                            </div>
+                                            <input id="file-vendor" type="file"
+                                                class="hidden"
+                                                name="file_vendor"
+                                                accept=".xlsx,.csv" required>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex justify-center">
+                        <div class="flex mb-4">
+                            <label for="fuel_agent" class="w-full text-right pr-10 mr-10 font-bold text-gray-700">Fuel Agent name</label>
+                            <div class="w-3/4">
+                        <select id="vendor" name="vendor"
+                            class="block rounded-md border-0 py-1.5 pl-10 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                            {% for fuel_agent_name in fuel_agent_names %}
+                            <option value="{{ fuel_agent_name }}">{{ fuel_agent_name }}</option>
+                            {% endfor %}
+                        </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex justify-center ">
+                        <div
+                            class="grid grid-cols-1 gap-4-sm pb-5">
+                            <div
+                                class="flex flex-col px-7 w-full overflow-auto sm:overflow-visible">
+                                <div class="flex items-center mb-2">
+                                    <div class>
+                                        <label for="date_of_date"
+                                            class="text-gray-900"
+                                            style="font-size: 12px;">Tanggal awal
+                                            pembelian</label>
+                                        <input type="date" required
+                                            id="date_of_data"
+                                            name="date_of_data"
+                                            class="block w-full bg-gray-200 text-gray-800 border border-gray-300 rounded px-3 py-2 focus:outline-none focus:border-blue-500" />
+                                        <span id="start-date-error"
+                                            class=" text-red-600 hidden "
+                                            style="font-size: 12px;">Tanggal
+                                            awal pembelian wajib diisi</span>
+                                    </div>
+                                    <span class="mx-4 text-gray-500">to</span>
+                                    <div class>
+                                        <label for="end_date_data"
+                                            class="text-gray-900"
+                                            style="font-size: 12px;">Tanggal
+                                            akhir pembelian</label>
+                                        <input type="date" required
+                                            id="end_date_data"
+                                            name="end_date_data"
+                                            class="block w-full bg-gray-200 text-gray-800 border border-gray-300 rounded px-3 py-2 focus:outline-none focus:border-blue-500" />
+                                        <span id="end-date-error"
+                                            class="text-red-600 hidden"
+                                            style="font-size: 12px;">Tanggal
+                                            akhir pembelian wajib diisi</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex justify-center mt-4">
+                        <button id="uploadButton"
+                            class="inline-flex w-40 justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm ring-1 ring-inset ring-red-600 hover:bg-red-500 sm:col-start-1 sm:mt-0">
+                            Find difference
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</main>
+<script>
+    document.getElementById('file-iaa').addEventListener('change', function () {
+        var fileName = this.files[0].name;
+        document.getElementById('file-name-placeholder-iaa').innerText = `${fileName}`;
+    });
+
+    document.getElementById('file-vendor').addEventListener('change', function () {
+        var fileName = this.files[0].name;
+        document.getElementById('file-name-placeholder-vendor').innerText = `${fileName}`;
+    });
+</script>
+{% endblock content %}

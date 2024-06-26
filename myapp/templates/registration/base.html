@@ -1,0 +1,137 @@
+{% load static tailwind_tags %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>
+            {% block title %}
+
+            {% endblock %}
+        </title>
+        {% tailwind_css %}
+    </head>
+
+    <style>
+        .login-form {
+          max-width: 600px;
+          margin: 0 auto;
+      }
+      
+      form div {
+          margin-bottom: 15px;
+        }
+      
+      
+      
+      label {
+          display: block;
+          font-weight: 500;
+          margin-bottom: 5px;
+          font-size: 0.875rem/* 14px */;
+          line-height: 1.25rem/* 20px */;
+          line-height: 1.5rem/* 24px */;
+          --tw-text-opacity: 1;
+          color: rgb(17 24 39 / var(--tw-text-opacity));
+      }
+      
+      input[type="text"],
+      input[type="password"] {
+          width: 100%;
+          padding: 5px;
+          border: 1px solid #ccc;
+          border-radius: 6px;
+      }
+      
+      .errorlist.nonfield {
+        margin-left: 10px; /* Margin kiri */
+        margin-right: 0;
+        margin-top: 0; /* Reset margin atas */
+        margin-bottom: 15px; /* Margin bawah */
+        padding: 0; /* Reset padding */ 
+        
+      }
+      
+      .errorlist.nonfield li {
+        color: #DC2626; /* Warna merah */
+        font-size:12px;
+        list-style-type: disc; /* Tipe daftar */
+      }
+
+      #id_new_password1,
+      #id_new_password2 {
+      width: 100%;
+      border-radius: 0.375rem; /* Tambahkan titik koma di akhir nilai */
+      padding-top: 5px; /* Tambahkan titik koma di akhir nilai */
+      padding-bottom: 5px; /* Tambahkan titik koma di akhir nilai */
+      border: 1px solid #d1d5db; /* Tambahkan titik koma di akhir nilai */
+      padding-left: 8px;
+  }
+  
+  #id_new_password1 .shadow-sm, /* Ganti koma menjadi titik di antara selector */
+  #id_new_password2 .shadow-sm { /* Ganti koma menjadi titik di antara selector */
+      --tw-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); /* Sesuaikan format nilai rgba dan tambahkan titik koma */
+      --tw-shadow-colored: 0 1px 2px 0 var(--tw-shadow-color);
+      box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+  }
+  
+  #id_new_password1 .focus\:border-indigo-500:focus,
+  #id_new_password2 .focus\:border-indigo-500:focus { /* Ganti koma menjadi titik di antara selector */
+      --tw-border-opacity: 1;
+      border-color: rgba(99, 102, 241, var(--tw-border-opacity)); /* Sesuaikan dengan format yang benar untuk rgba */
+  }
+  
+  #id_new_password1 .focus\:ring-indigo-500:focus,
+  #id_new_password2 .focus\:ring-indigo-500:focus { /* Ganti koma menjadi titik di antara selector */
+      --tw-ring-opacity: 1;
+      --tw-ring-color: rgba(99, 102, 241, var(--tw-ring-opacity)); /* Sesuaikan dengan format yang benar untuk rgba */
+  }
+  
+  
+      label[for="id_new_password1"] {
+          display: block;
+          color:#4B5563;
+          font-size: 1rem/* 16px */;
+          line-height: 1.5rem/* 24px */;
+          margin-bottom:8px ;
+      }
+  
+      label[for="id_new_password2"] {
+          display: block;
+          color:#4B5563;
+          font-size: 1rem/* 16px */;
+          line-height: 1.5rem/* 24px */;
+          margin-bottom:8px ;
+  
+      }
+  
+      ul {
+          list-style-type: disc; /* Menggunakan bullets */
+          color: #4B5563; /* Warna gray-900 */
+          font-size: 0.875rem; /* Ukuran text-sm */
+      }
+      
+      ul li {
+          margin-bottom: 0.5rem; /* Spasi antara setiap item */
+          margin-left: 8px; /* Indentasi dari kiri */
+          list-style-type: disc; /* Ensure bullets are applied */
+      }
+
+      </style>
+
+    <body class="">
+        <div>
+            {% block content %}
+
+            {% endblock %}
+        </div>
+
+        <script defer
+            src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+        <script type="text/javascript"
+            src="{% static 'js/alpine.js' %}"></script>
+
+    </body>
+</html>
